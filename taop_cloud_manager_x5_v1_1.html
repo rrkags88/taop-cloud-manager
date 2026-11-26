@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TAOP Cloud Manager X5 — Free Edition</title>
+<style>
+:root{color-scheme:dark;--bg:#0a1220;--panel:#121e31;--panel2:#192941;--line:#2a3d59;--txt:#edf4ff;--muted:#9fb0c8;--green:#55d6a2;--amber:#f2c46d;--blue:#79aaff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#172943,#0a1220 60%);color:var(--txt);font:15px system-ui,Segoe UI,sans-serif}
+main{max-width:1000px;margin:auto;padding:22px 15px 42px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h1{font-size:clamp(22px,4vw,31px);margin:0}.sub,.muted{color:var(--muted)}.sub{font-size:13px;margin-top:5px}
+.pill{padding:7px 11px;border-radius:30px;border:1px solid #286c55;color:var(--green);font-size:12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.card{background:#121e31ed;border:1px solid var(--line);border-radius:15px;padding:16px;box-shadow:0 10px 26px #0002}.span2{grid-column:span 2}.all{grid-column:1/-1}
+.metric{font-size:25px;font-weight:750;margin-top:7px}.muted{font-size:12px}.heading{font-size:17px;margin:0 0 13px}
+.accountgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.account{background:var(--panel2);border:1px solid var(--line);padding:12px;border-radius:11px}
+.accounttop{display:flex;justify-content:space-between;align-items:center;gap:8px}.status{font-size:11px;color:var(--amber);border:1px solid #705a31;padding:4px 7px;border-radius:30px;white-space:nowrap}
+input[type=text]{width:100%;margin-top:9px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#0b1729;color:var(--txt)}
+input[type=file]{width:100%;padding:11px;border:1px dashed #58708e;border-radius:9px;background:#0b1729;color:var(--muted)}
+button{border:0;border-radius:9px;padding:10px 13px;font-weight:650;background:#315eaa;color:#fff;cursor:pointer}button.secondary{background:#2a3a53;color:#e2edff}button.danger{background:#55333b;color:#ffd9de}
+.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:12px}.filetext{font-size:12px;color:var(--muted);margin-top:9px;overflow-wrap:anywhere}
+.note{border-left:3px solid var(--amber);background:#392f1d77;padding:12px;border-radius:8px;font-size:13px;line-height:1.55;color:#eadbb9}
+.ok{color:var(--green)}.list{line-height:1.9;color:var(--muted);font-size:13px}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:17px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.span2{grid-column:auto}.accountgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+ <header class="head">
+  <div><h1>🏴‍☠️ TAOP CLOUD MANAGER X5</h1><div class="sub">Free Edition · Dashboard lokal versi 1.1</div></div>
+  <span class="pill">TARGET BIAYA: Rp0</span>
+ </header>
+ <div class="grid">
+  <section class="card"><div class="muted">SLOT AKUN</div><div class="metric">5</div><div class="muted">Label akun disimpan di browser ini</div></section>
+  <section class="card"><div class="muted">SERVER CLOUD</div><div class="metric" style="font-size:21px;color:var(--amber)">Belum terhubung</div><div class="muted">Tidak ada server yang berjalan di belakang dashboard</div></section>
+  <section class="card"><div class="muted">CLIENT JAR</div><div class="metric" id="jarStatus" style="font-size:21px">Belum dipilih</div><div class="muted">File dipilih lokal, belum diunggah</div></section>
+  <section class="card span2">
+   <h2 class="heading">Kelola lima akun</h2>
+   <div class="accountgrid" id="accounts"></div>
+   <div class="row"><button id="save">Simpan nama akun</button><button class="secondary" id="resetNames">Kosongkan nama</button><span class="muted" id="saveState">Perubahan tersimpan otomatis di browser.</span></div>
+  </section>
+  <section class="card">
+   <h2 class="heading">Pilih client Java X5</h2>
+   <label class="muted" for="jar">Pilih file .jar dari perangkat</label>
+   <input id="jar" type="file" accept=".jar,application/java-archive">
+   <div class="filetext" id="fileinfo">Belum ada file dipilih.</div>
+   <div class="row"><button class="secondary" id="clearJar">Batalkan pilihan</button></div>
+  </section>
+  <section class="card">
+   <h2 class="heading">Status kesiapan</h2>
+   <div class="list">
+    <div>✓ Dashboard lokal siap</div>
+    <div>✓ Lima slot akun tersedia</div>
+    <div id="jarCheck">○ File JAR belum dipilih</div>
+    <div>○ Server Java cloud belum tersedia</div>
+    <div>○ Kompatibilitas client belum diuji</div>
+   </div>
+  </section>
+  <section class="card">
+   <h2 class="heading">Langkah selanjutnya</h2>
+   <div class="list">1. Isi label akun (jangan masukkan kata sandi).<br>2. Pilih file JAR jika ingin mencatat file yang akan dipakai.<br>3. Simpan dashboard ini di perangkatmu.<br>4. Hubungkan server hanya setelah ada hosting yang memenuhi syarat Rp0.</div>
+  </section>
+  <section class="card all">
+   <div class="note"><b>Transparansi:</b> Dashboard ini berjalan di browser perangkatmu. Nama akun disimpan lokal di browser. Pemilihan JAR hanya membaca nama dan ukuran file; file tidak dikirim ke mana pun. Dashboard ini belum login ke TAOP, belum menjalankan game, belum melakukan farming, dan tidak bisa membuat HP/PC mati tetapi game tetap online. Hosting gratis yang ditemukan memiliki batas tidur/kapasitas dan tidak cocok untuk lima client Java nonstop.</div>
+  </section>
+ </div>
+ <footer>TAOP Cloud Manager X5 · Prototype 1.1 · Tidak terhubung ke akun atau server game.</footer>
+</main>
+<script>
+const key='taop-x5-account-labels-v1';
+let names=[];
+try{names=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){names=[]}
+if(!Array.isArray(names))names=[];
+const root=document.getElementById('accounts');
+for(let i=0;i<5;i++){
+ const box=document.createElement('div');box.className='account';
+ const top=document.createElement('div');top.className='accounttop';
+ const strong=document.createElement('b');strong.textContent='Account '+(i+1);
+ const state=document.createElement('span');state.className='status';state.textContent='Belum login';
+ top.append(strong,state);
+ const input=document.createElement('input');input.type='text';input.maxLength=40;input.placeholder='Label akun '+(i+1);input.value=typeof names[i]==='string'?names[i]:'';
+ input.setAttribute('aria-label','Label akun '+(i+1));input.dataset.index=i;
+ input.addEventListener('input',saveNames);
+ box.append(top,input);root.append(box);
+}
+function saveNames(){
+ const arr=[...root.querySelectorAll('input')].map(x=>x.value);
+ try{localStorage.setItem(key,JSON.stringify(arr));document.getElementById('saveState').textContent='Tersimpan di browser.'}
+ catch(e){document.getElementById('saveState').textContent='Browser tidak mengizinkan penyimpanan.'}
+}
+document.getElementById('save').onclick=saveNames;
+document.getElementById('resetNames').onclick=()=>{root.querySelectorAll('input').forEach(x=>x.value='');saveNames()};
+const picker=document.getElementById('jar');
+picker.addEventListener('change',()=>{
+ const f=picker.files?.[0],info=document.getElementById('fileinfo'),status=document.getElementById('jarStatus'),check=document.getElementById('jarCheck');
+ if(!f){info.textContent='Belum ada file dipilih.';status.textContent='Belum dipilih';check.textContent='○ File JAR belum dipilih';return}
+ const valid=f.name.toLowerCase().endsWith('.jar');
+ info.textContent=f.name+' · '+(f.size/1048576).toFixed(2)+' MB'+(valid?'':' · Ekstensi bukan .jar');
+ status.textContent=valid?'Dipilih':'Periksa file';
+ check.textContent=valid?'✓ File JAR dipilih (belum diuji)':'! File yang dipilih bukan .jar';
+});
+document.getElementById('clearJar').onclick=()=>{picker.value='';document.getElementById('fileinfo').textContent='Belum ada file dipilih.';document.getElementById('jarStatus').textContent='Belum dipilih';document.getElementById('jarCheck').textContent='○ File JAR belum dipilih'};
+</script>
+</body>
+</html>
